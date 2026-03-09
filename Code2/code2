@@ -1,0 +1,65 @@
+// CONFIG1H
+#pragma config FOSC = HSMP     // Oscilador High Speed con cristal
+#pragma config PLLCFG = OFF
+#pragma config PRICLKEN = ON
+#pragma config FCMEN = OFF
+#pragma config IESO = OFF
+
+// CONFIG2L
+#pragma config PWRTEN = OFF
+#pragma config BOREN = SBORDIS
+#pragma config BORV = 190
+
+// CONFIG2H
+#pragma config WDTEN = OFF
+#pragma config WDTPS = 32768
+
+// CONFIG3H
+#pragma config CCP2MX = PORTC1
+#pragma config PBADEN = OFF
+#pragma config CCP3MX = PORTB5
+#pragma config HFOFST = OFF
+#pragma config T3CMX = PORTC0
+#pragma config P2BMX = PORTC0
+#pragma config MCLRE = EXTMCLR
+
+// CONFIG4L
+#pragma config STVREN = ON
+#pragma config LVP = OFF
+#pragma config XINST = OFF
+#pragma config DEBUG = OFF
+
+// Protección deshabilitada
+#pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
+#pragma config CPB = OFF, CPD = OFF
+#pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
+#pragma config WRTC = OFF, WRTB = OFF, WRTD = OFF
+#pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
+#pragma config EBTRB = OFF
+
+#include <xc.h>
+
+#define _XTAL_FREQ 16000000   // Cristal de 8 MHz
+
+void main(void)
+{
+    // Deshabilitar entradas analógicas
+    ANSELA = 0x00;
+    ANSELB = 0x00;
+    ANSELC = 0x00;
+    ANSELD = 0x00;
+    ANSELE = 0x00;
+
+    // RB0 como salida
+    TRISBbits.TRISB0 = 0;
+    LATBbits.LATB0 = 0;
+
+    while(1)
+    {
+        LATBbits.LATB0 = 1;
+        __delay_ms(1);   // 1 ms alto
+
+        LATBbits.LATB0 = 0;
+        __delay_ms(1);   // 1 ms bajo
+    }
+}

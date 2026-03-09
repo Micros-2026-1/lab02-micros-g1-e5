@@ -1,0 +1,54 @@
+// CONFIG1H
+#pragma config FOSC = RC       // Oscilador RC externo y clock por OSC2
+#pragma config PLLCFG = OFF
+#pragma config PRICLKEN = ON
+#pragma config FCMEN = OFF
+#pragma config IESO = OFF
+
+// CONFIG2L
+#pragma config PWRTEN = OFF
+#pragma config BOREN = SBORDIS
+#pragma config BORV = 190
+
+// CONFIG2H
+#pragma config WDTEN = OFF
+#pragma config WDTPS = 32768
+
+// CONFIG3H
+#pragma config CCP2MX = PORTC1
+#pragma config PBADEN = OFF
+#pragma config CCP3MX = PORTB5
+#pragma config HFOFST = OFF
+#pragma config T3CMX = PORTC0
+#pragma config P2BMX = PORTC0
+#pragma config MCLRE = EXTMCLR
+
+// CONFIG4L
+#pragma config STVREN = ON
+#pragma config LVP = OFF
+#pragma config XINST = OFF
+#pragma config DEBUG = OFF
+
+#include <xc.h>
+
+#define _XTAL_FREQ 2700000   // Ajusta al valor real del RC
+
+void main(void)
+{
+    ANSELA = 0;
+    ANSELB = 0;
+    ANSELC = 0;
+    ANSELD = 0;
+    ANSELE = 0;
+
+    TRISBbits.TRISB0 = 0;
+
+    while(1)
+    {
+        LATBbits.LATB0 = 1;
+        __delay_ms(25);
+
+        LATBbits.LATB0 = 0;
+        __delay_ms(25);
+    }
+}
